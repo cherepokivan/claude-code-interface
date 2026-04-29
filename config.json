@@ -1,0 +1,95 @@
+{
+  "name": "claude-code-interface",
+  "version": "1.0.0",
+  "description": "Веб-интерфейсы для взаимодействия с Claude API",
+  "author": "cherepokivan",
+  "license": "MIT",
+  "interfaces": [
+    {
+      "name": "Basic Interface",
+      "file": "claude-interface.html",
+      "description": "Простой базовый интерфейс",
+      "features": [
+        "Базовый чат",
+        "Настройки API",
+        "Форматирование кода"
+      ],
+      "recommended_for": "Начинающие пользователи"
+    },
+    {
+      "name": "Advanced Interface",
+      "file": "claude-advanced.html",
+      "description": "Продвинутый интерфейс с множеством функций",
+      "features": [
+        "Управление разговорами",
+        "Статистика",
+        "Экспорт чатов",
+        "Боковая панель",
+        "Копирование сообщений"
+      ],
+      "recommended_for": "Опытные пользователи"
+    },
+    {
+      "name": "Dark Theme Interface",
+      "file": "claude-dark.html",
+      "description": "Интерфейс с темной темой",
+      "features": [
+        "Темная тема",
+        "Подсветка кода",
+        "Быстрые предложения",
+        "Экспорт"
+      ],
+      "recommended_for": "Работа в темное время суток"
+    },
+    {
+      "name": "Mobile Interface",
+      "file": "claude-mobile.html",
+      "description": "Мобильная версия",
+      "features": [
+        "Touch-friendly",
+        "Адаптивный дизайн",
+        "Боковое меню",
+        "Оптимизация для мобильных"
+      ],
+      "recommended_for": "Смартфоны и планшеты"
+    }
+  ],
+  "api": {
+    "provider": "Anthropic",
+    "endpoint": "https://api.anthropic.com/v1/messages",
+    "version": "2023-06-01",
+    "models": [
+      {
+        "id": "claude-sonnet-4-6",
+        "name": "Claude Sonnet 4.6",
+        "description": "Баланс скорости и качества",
+        "recommended": true
+      },
+      {
+        "id": "claude-opus-4-7",
+        "name": "Claude Opus 4.7",
+        "description": "Максимальная производительность"
+      },
+      {
+        "id": "claude-haiku-4-5-20251001",
+        "name": "Claude Haiku 4.5",
+        "description": "Быстрые ответы"
+      }
+    ]
+  },
+  "storage": {
+    "type": "localStorage",
+    "keys": {
+      "api_key": "claude_api_key",
+      "settings": "claude_settings",
+      "conversations": "claude_conversations"
+    }
+  },
+  "security": {
+    "warnings": [
+      "API ключ хранится в localStorage браузера",
+      "Не используйте на общедоступных компьютерах",
+      "Регулярно обновляйте API ключи"
+    ]
+  }
+}

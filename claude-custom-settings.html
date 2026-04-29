@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code - Custom Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="text"]:disabled, input[type="password"]:disabled {
+            background: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h3 {
+            font-size: 14px;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .warning-box p {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .saved-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4ade80;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="saved-indicator" id="savedIndicator">
+        ✓ Настройки сохранены!
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Расширенные настройки</h1>
+            <p>Настройка кастомных параметров для Claude API</p>
+        </div>
+
+        <div class="content">
+            <div class="info-box">
+                <h3>ℹ️ Для чего это нужно?</h3>
+                <p>
+                    Эти настройки позволяют использовать кастомные endpoints (например, OmniRoute, прокси-серверы)
+                    вместо стандартного Anthropic API. Полезно для локальных gateway или альтернативных провайдеров.
+                </p>
+            </div>
+
+            <!-- API Token -->
+            <div class="section">
+                <div class="section-title">🔑 API Token</div>
+
+                <div class="form-group">
+                    <label>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="useCustomToken" onchange="toggleCustomToken()">
+                            <span>Использовать кастомный токен</span>
+                        </div>
+                    </label>
+                    <input
+                        type="password"
+                        id="customToken"
+                        placeholder="sk-ant-..."
+                        disabled
+                    >
+                    <div class="hint">Например: sk-ant-api03-xxxxxxxxxxxxx</div>
+                </div>
+            </div>
+
+            <!-- Base URL -->
+            <div class="section">
+                <div class="section-title">🌐 Base URL</div>
+
+                <div class="form-group">
+                    <label>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="useCustomUrl" onchange="toggleCustomUrl()">
+                            <span>Использовать кастомный endpoint</span>
+                        </div>
+                    </label>
+                    <input
+                        type="text"
+                        id="customUrl"
+                        placeholder="https://api.example.com/v1"
+                        disabled
+                    >
+                    <div class="hint">Например: http://localhost:20128/v1 или https://api.omniroute.ai</div>
+                </div>
+            </div>
+
+            <!-- Model -->
+            <div class="section">
+                <div class="section-title">🤖 Модель</div>
+
+                <div class="form-group">
+                    <label>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="useCustomModel" onchange="toggleCustomModel()">
+                            <span>Использовать кастомное имя модели</span>
+                        </div>
+                    </label>
+                    <input
+                        type="text"
+                        id="customModel"
+                        placeholder="kr/claude-sonnet-4.5"
+                        disabled
+                    >
+                    <div class="hint">Например: kr/claude-sonnet-4.5 или custom-model-name</div>
+                </div>
+            </div>
+
+            <!-- Connection Mode -->
+            <div class="section">
+                <div class="section-title">🔌 Режим подключения</div>
+
+                <div class="form-group">
+                    <label>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="useLocalProcess" onchange="toggleLocalProcess()">
+                            <span>Использовать запущенный процесс Claude Code</span>
+                        </div>
+                    </label>
+                    <input
+                        type="text"
+                        id="localProcessUrl"
+                        placeholder="http://localhost:3000"
+                        disabled
+                    >
+                    <div class="hint">Подключиться к уже запущенному claude.exe в консоли (обычно http://localhost:3000)</div>
+                </div>
+            </div>
+
+            <!-- Experimental Betas -->
+            <div class="section">
+                <div class="section-title">🧪 Экспериментальные функции</div>
+
+                <div class="form-group">
+                    <label>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="disableBetas">
+                            <span>Отключить experimental betas</span>
+                        </div>
+                    </label>
+                    <div class="hint">Включите, если ваш gateway не поддерживает экспериментальные функции</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p>
+                    ⚠️ <strong>Внимание:</strong> Эти настройки сохраняются в localStorage браузера.
+                    Не используйте на общедоступных компьютерах!
+                </p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="resetSettings()">
+                    Сбросить
+                </button>
+                <button class="btn btn-secondary" onclick="loadDefaults()">
+                    По умолчанию
+                </button>
+                <button class="btn btn-primary" onclick="saveSettings()">
+                    Сохранить настройки
+                </button>
+            </div>
+
+            <div class="section" style="margin-top: 30px;">
+                <div class="section-title">📋 Эквивалент в .bat файле</div>
+                <div class="code-example" id="batExample">
+@echo off
+setlocal
+
+REM Стандартные настройки Anthropic
+set "ANTHROPIC_AUTH_TOKEN=your-api-key"
+set "ANTHROPIC_BASE_URL=https://api.anthropic.com"
+
+echo Starting Claude Code...
+claude
+
+endlocal
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Загрузка настроек при старте
+        window.addEventListener('load', () => {
+            loadSettings();
+        });
+
+        function toggleCustomToken() {
+            const checkbox = document.getElementById('useCustomToken');
+            const input = document.getElementById('customToken');
+            input.disabled = !checkbox.checked;
+            if (checkbox.checked) {
+                input.focus();
+            }
+            updateBatExample();
+        }
+
+        function toggleCustomUrl() {
+            const checkbox = document.getElementById('useCustomUrl');
+            const input = document.getElementById('customUrl');
+            input.disabled = !checkbox.checked;
+            if (checkbox.checked) {
+                input.focus();
+            }
+            updateBatExample();
+        }
+
+        function toggleCustomModel() {
+            const checkbox = document.getElementById('useCustomModel');
+            const input = document.getElementById('customModel');
+            input.disabled = !checkbox.checked;
+            if (checkbox.checked) {
+                input.focus();
+            }
+            updateBatExample();
+        }
+
+        function toggleLocalProcess() {
+            const checkbox = document.getElementById('useLocalProcess');
+            const input = document.getElementById('localProcessUrl');
+            input.disabled = !checkbox.checked;
+
+            // Если включен режим локального процесса, отключаем другие опции
+            if (checkbox.checked) {
+                document.getElementById('useCustomUrl').checked = false;
+                document.getElementById('customUrl').disabled = true;
+                document.getElementById('useCustomToken').checked = false;
+                document.getElementById('customToken').disabled = true;
+                input.focus();
+            }
+            updateBatExample();
+        }
+
+        function updateBatExample() {
+            const useToken = document.getElementById('useCustomToken').checked;
+            const useUrl = document.getElementById('useCustomUrl').checked;
+            const useModel = document.getElementById('useCustomModel').checked;
+            const useLocalProcess = document.getElementById('useLocalProcess').checked;
+            const disableBetas = document.getElementById('disableBetas').checked;
+
+            const token = document.getElementById('customToken').value || 'your-api-key';
+            const url = document.getElementById('customUrl').value || 'https://api.anthropic.com';
+            const model = document.getElementById('customModel').value || 'claude-sonnet-4-6';
+            const localUrl = document.getElementById('localProcessUrl').value || 'http://localhost:3000';
+
+            let bat = '@echo off\nsetlocal\n\n';
+
+            if (useLocalProcess) {
+                bat += `REM Подключение к запущенному процессу Claude Code\n`;
+                bat += `REM Процесс должен быть запущен в другой консоли: claude\n`;
+                bat += `REM Веб-интерфейс подключится к ${localUrl}\n\n`;
+                bat += `echo Connecting to local Claude Code process at ${localUrl}...\n`;
+            } else {
+                if (useToken) {
+                    bat += `set "ANTHROPIC_AUTH_TOKEN=${token}"\n`;
+                } else {
+                    bat += `REM set "ANTHROPIC_AUTH_TOKEN=your-api-key"\n`;
+                }
+
+                if (useUrl) {
+                    bat += `set "ANTHROPIC_BASE_URL=${url}"\n`;
+                } else {
+                    bat += `REM set "ANTHROPIC_BASE_URL=https://api.anthropic.com"\n`;
+                }
+
+                if (useModel) {
+                    bat += `set "ANTHROPIC_MODEL=${model}"\n`;
+                } else {
+                    bat += `REM set "ANTHROPIC_MODEL=claude-sonnet-4-6"\n`;
+                }
+
+                if (disableBetas) {
+                    bat += `set "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1"\n`;
+                } else {
+                    bat += `REM set "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1"\n`;
+                }
+
+                bat += '\necho Starting Claude Code...\nclaude\n';
+            }
+
+            bat += '\nendlocal';
+
+            document.getElementById('batExample').textContent = bat;
+        }
+
+        function saveSettings() {
+            const settings = {
+                useCustomToken: document.getElementById('useCustomToken').checked,
+                customToken: document.getElementById('customToken').value,
+                useCustomUrl: document.getElementById('useCustomUrl').checked,
+                customUrl: document.getElementById('customUrl').value,
+                useCustomModel: document.getElementById('useCustomModel').checked,
+                customModel: document.getElementById('customModel').value,
+                useLocalProcess: document.getElementById('useLocalProcess').checked,
+                localProcessUrl: document.getElementById('localProcessUrl').value,
+                disableBetas: document.getElementById('disableBetas').checked
+            };
+
+            // Сохраняем в localStorage
+            localStorage.setItem('claude_custom_settings', JSON.stringify(settings));
+
+            // Также сохраняем в формате, который могут использовать интерфейсы
+            if (settings.useLocalProcess && settings.localProcessUrl) {
+                // Режим локального процесса - используем его URL
+                localStorage.setItem('claude_api_url', settings.localProcessUrl);
+                localStorage.setItem('claude_api_key', 'local-process'); // Фиктивный ключ
+            } else {
+                if (settings.useCustomToken && settings.customToken) {
+                    localStorage.setItem('claude_api_key', settings.customToken);
+                }
+
+                if (settings.useCustomUrl && settings.customUrl) {
+                    localStorage.setItem('claude_api_url', settings.customUrl);
+                }
+            }
+
+            if (settings.useCustomModel && settings.customModel) {
+                const currentSettings = JSON.parse(localStorage.getItem('claude_settings') || '{}');
+                currentSettings.model = settings.customModel;
+                localStorage.setItem('claude_settings', JSON.stringify(currentSettings));
+            }
+
+            // Показываем индикатор сохранения
+            const indicator = document.getElementById('savedIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 3000);
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('claude_custom_settings');
+            if (!saved) return;
+
+            const settings = JSON.parse(saved);
+
+            document.getElementById('useCustomToken').checked = settings.useCustomToken || false;
+            document.getElementById('customToken').value = settings.customToken || '';
+            document.getElementById('customToken').disabled = !settings.useCustomToken;
+
+            document.getElementById('useCustomUrl').checked = settings.useCustomUrl || false;
+            document.getElementById('customUrl').value = settings.customUrl || '';
+            document.getElementById('customUrl').disabled = !settings.useCustomUrl;
+
+            document.getElementById('useCustomModel').checked = settings.useCustomModel || false;
+            document.getElementById('customModel').value = settings.customModel || '';
+            document.getElementById('customModel').disabled = !settings.useCustomModel;
+
+            document.getElementById('useLocalProcess').checked = settings.useLocalProcess || false;
+            document.getElementById('localProcessUrl').value = settings.localProcessUrl || 'http://localhost:3000';
+            document.getElementById('localProcessUrl').disabled = !settings.useLocalProcess;
+
+            document.getElementById('disableBetas').checked = settings.disableBetas || false;
+
+            updateBatExample();
+        }
+
+        function resetSettings() {
+            if (confirm('Сбросить все настройки?')) {
+                localStorage.removeItem('claude_custom_settings');
+                document.getElementById('useCustomToken').checked = false;
+                document.getElementById('customToken').value = '';
+                document.getElementById('customToken').disabled = true;
+
+                document.getElementById('useCustomUrl').checked = false;
+                document.getElementById('customUrl').value = '';
+                document.getElementById('customUrl').disabled = true;
+
+                document.getElementById('useCustomModel').checked = false;
+                document.getElementById('customModel').value = '';
+                document.getElementById('customModel').disabled = true;
+
+                document.getElementById('useLocalProcess').checked = false;
+                document.getElementById('localProcessUrl').value = 'http://localhost:3000';
+                document.getElementById('localProcessUrl').disabled = true;
+
+                document.getElementById('disableBetas').checked = false;
+
+                updateBatExample();
+            }
+        }
+
+        function loadDefaults() {
+            document.getElementById('useCustomToken').checked = false;
+            document.getElementById('customToken').value = '';
+            document.getElementById('customToken').disabled = true;
+
+            document.getElementById('useCustomUrl').checked = false;
+            document.getElementById('customUrl').value = 'https://api.anthropic.com/v1/messages';
+            document.getElementById('customUrl').disabled = true;
+
+            document.getElementById('useCustomModel').checked = false;
+            document.getElementById('customModel').value = 'claude-sonnet-4-6';
+            document.getElementById('customModel').disabled = true;
+
+            document.getElementById('disableBetas').checked = false;
+
+            updateBatExample();
+        }
+
+        // Обновляем пример при вводе
+        document.getElementById('customToken').addEventListener('input', updateBatExample);
+        document.getElementById('customUrl').addEventListener('input', updateBatExample);
+        document.getElementById('customModel').addEventListener('input', updateBatExample);
+        document.getElementById('localProcessUrl').addEventListener('input', updateBatExample);
+        document.getElementById('disableBetas').addEventListener('change', updateBatExample);
+    </script>
+</body>
+</html>

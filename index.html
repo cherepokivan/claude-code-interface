@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Interface - Главная</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .version-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .version-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .version-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .version-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .version-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .version-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .version-features {
+            list-style: none;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .version-features li {
+            margin-bottom: 5px;
+        }
+
+        .version-features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .launch-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .info-section p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .info-section li {
+            padding: 8px 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .info-section li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .docs-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .doc-link {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .doc-link:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .version-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Claude Code Interface</h1>
+            <p>Выберите версию интерфейса для работы с Claude API</p>
+        </div>
+
+        <div class="content">
+            <div class="version-grid">
+                <div class="version-card">
+                    <div class="version-icon">💬</div>
+                    <div class="version-title">Базовый</div>
+                    <div class="version-desc">
+                        Простой и понятный интерфейс для начала работы с Claude
+                    </div>
+                    <ul class="version-features">
+                        <li>Чистый дизайн</li>
+                        <li>Базовые функции</li>
+                        <li>Быстрая загрузка</li>
+                    </ul>
+                    <button class="launch-btn" onclick="launch('claude-interface.html')">
+                        Запустить
+                    </button>
+                </div>
+
+                <div class="version-card">
+                    <div class="version-icon">⚡</div>
+                    <div class="version-title">Продвинутый</div>
+                    <div class="version-desc">
+                        Полнофункциональный интерфейс с управлением разговорами
+                    </div>
+                    <ul class="version-features">
+                        <li>Несколько чатов</li>
+                        <li>Статистика</li>
+                        <li>Экспорт данных</li>
+                    </ul>
+                    <button class="launch-btn" onclick="launch('claude-advanced.html')">
+                        Запустить
+                    </button>
+                </div>
+
+                <div class="version-card">
+                    <div class="version-icon">🌙</div>
+                    <div class="version-title">Темная тема</div>
+                    <div class="version-desc">
+                        Интерфейс с темной темой для комфортной работы ночью
+                    </div>
+                    <ul class="version-features">
+                        <li>Темный дизайн</li>
+                        <li>Подсветка кода</li>
+                        <li>Предложения</li>
+                    </ul>
+                    <button class="launch-btn" onclick="launch('claude-dark.html')">
+                        Запустить
+                    </button>
+                </div>
+
+                <div class="version-card">
+                    <div class="version-icon">📱</div>
+                    <div class="version-title">Мобильный</div>
+                    <div class="version-desc">
+                        Оптимизированная версия для смартфонов и планшетов
+                    </div>
+                    <ul class="version-features">
+                        <li>Touch-friendly</li>
+                        <li>Адаптивный</li>
+                        <li>Быстрый</li>
+                    </ul>
+                    <button class="launch-btn" onclick="launch('claude-mobile.html')">
+                        Запустить
+                    </button>
+                </div>
+
+                <div class="version-card" style="border: 2px solid #ffc107;">
+                    <div class="version-icon">⚙️</div>
+                    <div class="version-title">Кастомные настройки</div>
+                    <div class="version-desc">
+                        Настройка для OmniRoute, прокси и кастомных endpoints
+                    </div>
+                    <ul class="version-features">
+                        <li>Custom API URL</li>
+                        <li>Custom Token</li>
+                        <li>Custom Model</li>
+                    </ul>
+                    <button class="launch-btn" onclick="launch('claude-custom-settings.html')" style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);">
+                        Настроить
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>🚀 Быстрый старт</h2>
+                <p>
+                    Для начала работы выберите любой интерфейс выше. После запуска:
+                </p>
+                <ul>
+                    <li>Нажмите на иконку настроек ⚙️</li>
+                    <li>Введите ваш API ключ от Anthropic</li>
+                    <li>Выберите модель Claude</li>
+                    <li>Начните общение!</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h2>📚 Документация</h2>
+                <div class="docs-links">
+                    <a href="README.md" class="doc-link">📖 README</a>
+                    <a href="INSTALL.md" class="doc-link">🔧 Установка</a>
+                    <a href="EXAMPLES.md" class="doc-link">💡 Примеры</a>
+                    <a href="CHANGELOG.md" class="doc-link">📝 Изменения</a>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>🔑 Получение API ключа</h2>
+                <p>
+                    Для работы с интерфейсом вам нужен API ключ от Anthropic:
+                </p>
+                <ul>
+                    <li>Зарегистрируйтесь на <a href="https://console.anthropic.com/" target="_blank" style="color: #667eea;">console.anthropic.com</a></li>
+                    <li>Перейдите в раздел API Keys</li>
+                    <li>Создайте новый ключ</li>
+                    <li>Скопируйте и сохраните его</li>
+                </ul>
+            </div>
+
+            <div class="info-section" style="border-left: 4px solid #ffc107;">
+                <h2>⚙️ Кастомные настройки</h2>
+                <p>
+                    Используете OmniRoute, локальный gateway или прокси? Настройте кастомные параметры:
+                </p>
+                <ul>
+                    <li>Custom API endpoint (например, http://localhost:20128/v1)</li>
+                    <li>Custom токен для вашего gateway</li>
+                    <li>Custom имя модели (например, kr/claude-sonnet-4.5)</li>
+                    <li>Отключение experimental betas</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <a href="claude-custom-settings.html" style="color: #ffc107; font-weight: 600;">→ Открыть настройки</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Claude Code Interface v1.0.0 | MIT License | 2026</p>
+            <p>Powered by Anthropic Claude API</p>
+        </div>
+    </div>
+
+    <script>
+        function launch(file) {
+            window.location.href = file;
+        }
+
+        // Проверка наличия API ключа
+        window.addEventListener('load', () => {
+            const hasKey = localStorage.getItem('claude_api_key') ||
+                          localStorage.getItem('claude_api_key_dark') ||
+                          localStorage.getItem('claude_mobile_key');
+
+            if (!hasKey) {
+                console.log('API ключ не найден. Не забудьте настроить его после запуска интерфейса.');
+            }
+        });
+    </script>
+</body>
+</html>
